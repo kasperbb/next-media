@@ -1,16 +1,17 @@
-import { axios } from '@lib/axios'
+import { GetServerSideProps } from 'next/types'
 import { Media } from '@interfaces/media'
 import { MovieDetails } from '@components/Details/MovieDetails'
-import { TVShowDetails } from '@components/Details/TVShowDetails'
 import { PersonDetails } from '@components/Details/PersonDetails'
+import { TVShowDetails } from '@components/Details/TVShowDetails'
+import { axios } from '@lib/axios'
 
 interface TVShowDetailsPageProps {
 	data: Media.Details.Movie | Media.Details.TVShow | Media.Details.Person
 	type: string
 }
 
-export const getServerSideProps = async ({ params }) => {
-	const [type, id] = params.query
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	const [type, id] = params?.query as string[]
 
 	const { data } = await axios.get(`/${type}/${id}`, {
 		params: {

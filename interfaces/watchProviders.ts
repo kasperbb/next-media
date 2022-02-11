@@ -1,4 +1,4 @@
-import { Map } from './map'
+import { Locations } from './location'
 
 export namespace WatchProviders {
 	export enum Links {
@@ -32,47 +32,8 @@ export namespace WatchProviders {
 		'BINGE' = 'https://binge.com.au/',
 	}
 
-	export interface List {
-		AE?: Contents
-		AR?: Contents
-		AT?: Contents
-		AU?: Contents
-		BE?: Contents
-		BG?: Contents
-		BR?: Contents
-		CA?: Contents
-		CH?: Contents
-		CZ?: Contents
-		DE?: Contents
-		DK?: Contents
-		EE?: Contents
-		ES?: Contents
-		FI?: Contents
-		FR?: Contents
-		GB?: Contents
-		HK?: Contents
-		HR?: Contents
-		HU?: Contents
-		ID?: Contents
-		IE?: Contents
-		IN?: Contents
-		IT?: Contents
-		JP?: Contents
-		KR?: Contents
-		LT?: Contents
-		MX?: Contents
-		NL?: Contents
-		NO?: Contents
-		NZ?: Contents
-		PH?: Contents
-		PL?: Contents
-		PT?: Contents
-		RU?: Contents
-		SE?: Contents
-		SK?: Contents
-		TR?: Contents
-		US?: Contents
-		ZA?: Contents
+	export type List = {
+		[key in Locations]: Types
 	}
 
 	export interface Types {

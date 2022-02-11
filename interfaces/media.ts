@@ -176,7 +176,9 @@ export namespace Media {
 			type: string
 			vote_average: number
 			vote_count: number
-			'watch/providers': WatchProviders.List
+			'watch/providers': {
+				results: WatchProviders.List
+			}
 		}
 
 		export interface Person {

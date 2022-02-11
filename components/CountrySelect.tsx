@@ -1,6 +1,7 @@
-import { Fragment } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { Listbox, Transition } from '@headlessui/react'
+
+import { Fragment } from 'react'
 import { countryList } from '@utils/countries'
 import { useLocation } from '@context/LocationContext'
 
@@ -44,7 +45,7 @@ const CountrySelect = () => {
 										}
 										value={country.code}
 									>
-										{({ selected, active }) => (
+										{({ selected }) => (
 											<>
 												<div className="flex items-center">
 													<img

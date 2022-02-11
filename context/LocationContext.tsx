@@ -1,9 +1,11 @@
+import React, { FC, useContext, useEffect, useState } from 'react'
+
+import { Locations } from '@interfaces/location'
 import { axios } from '@lib/axios'
-import React, { useContext, useState, useEffect, FC } from 'react'
 
 interface LocationContextValues {
-	location: string
-	setLocation: React.Dispatch<React.SetStateAction<string>>
+	location: keyof typeof Locations
+	setLocation: React.Dispatch<React.SetStateAction<keyof typeof Locations>>
 }
 
 const LocationContext = React.createContext<LocationContextValues | null>(null)
@@ -13,7 +15,7 @@ export const useLocation = () => {
 }
 
 export const LocationProvider: FC = ({ children }) => {
-	const [location, setLocation] = useState('NO')
+	const [location, setLocation] = useState<keyof typeof Locations>('NO')
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {

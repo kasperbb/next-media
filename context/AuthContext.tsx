@@ -1,13 +1,15 @@
-import React, { useContext, useState, useEffect, FC } from 'react'
+import { ApiError, Session, User as SupabaseUser } from '@supabase/supabase-js'
+import React, { FC, useContext, useEffect, useState } from 'react'
+
+import { User } from '@interfaces/user'
 import { supabase } from '@lib/supabase'
-import { ApiError, User } from '@supabase/supabase-js'
 import { useRouter } from 'next/router'
 
 interface AuthContextValues {
-	user: any
-	setUser: React.Dispatch<React.SetStateAction<any>>
-	login: (email: string, password: string) => Promise<ApiError | User | null>
-	register: (email: string, password: string) => Promise<ApiError | User | null>
+	user: User.UserObject
+	setUser: React.Dispatch<React.SetStateAction<User.UserObject>>
+	login: (email: string, password: string) => Promise<ApiError | SupabaseUser | null>
+	register: (email: string, password: string) => Promise<ApiError | SupabaseUser | null>
 	logout: () => Promise<void>
 }
 
@@ -17,22 +19,49 @@ export const useAuth = () => {
 	return useContext(AuthContext) as AuthContextValues
 }
 
+const postData = (url: string, data = {}) =>
+	fetch(url, {
+		method: 'POST',
+		headers: new Headers({ 'Content-Type': 'application/json' }),
+		credentials: 'same-origin',
+		body: JSON.stringify(data),
+	}).then(res => res.json())
+
 export const AuthProvider: FC = ({ children }) => {
-	const [user, setUser] = useState<any>(null)
+	const [session, setSession] = useState<Session | null>(null)
+	const [user, setUser] = useState<User.UserObject | null>(null)
 	const [loading, setLoading] = useState(true)
 	const router = useRouter()
 
 	useEffect(() => {
-		const { data: authListener } = supabase.auth.onAuthStateChange(async () => checkUser())
+		const authSession = supabase.auth.session()
+		setSession(authSession)
+		setUser(authSession?.user ?? null)
 
-		checkUser()
+		const { data: authListener } = supabase.auth.onAuthStateChange(async (event, changeAuthSession) => {
+			console.log('%c Supbase auth event:', 'color:#ffa500', event)
+
+			await postData('/api/auth', {
+				event,
+				token: changeAuthSession?.access_token ?? null,
+				maxAge: changeAuthSession?.expires_in ?? null,
+			})
+
+			setSession(changeAuthSession)
+			setUser(changeAuthSession?.user ?? null)
+			await getAvatar(changeAuthSession?.user)
+		})
+
+		setLoading(false)
 
 		return () => {
 			authListener?.unsubscribe()
 		}
 	}, [])
 
-	const getAvatar = async user => {
+	const getAvatar = async (user: SupabaseUser | null | undefined) => {
+		if (!user) return
+
 		const {
 			data: { avatar_url },
 			error,
@@ -49,17 +78,8 @@ export const AuthProvider: FC = ({ children }) => {
 		}
 		const url = URL.createObjectURL(data)
 		setUser(prev => {
-			return { ...prev, avatar_url: url }
+			return { ...prev, avatar_url: url } as User.UserObject
 		})
-	}
-
-	const checkUser = async () => {
-		const user = supabase.auth.user()
-		setUser(user)
-
-		if (user) await getAvatar(user)
-
-		setLoading(false)
 	}
 
 	const login = async (email: string, password: string) => {
@@ -69,7 +89,7 @@ export const AuthProvider: FC = ({ children }) => {
 		})
 
 		if (error) return error
-		checkUser()
+
 		router.push('/account')
 		return user
 	}
@@ -86,11 +106,12 @@ export const AuthProvider: FC = ({ children }) => {
 		})
 
 		if (error) return error
-		checkUser()
+
 		return user
 	}
 
 	const value: any = {
+		session,
 		user,
 		setUser,
 		login,

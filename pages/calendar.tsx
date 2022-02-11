@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/solid'
+
 import moment from 'moment'
 import { useState } from 'react'
 
@@ -33,7 +34,7 @@ export default function CalendarPage() {
 		</th>
 	))
 
-	const blanks = Array.from({ length: getFirstDayOfMonth() }, (_, i) => i).map(el => <td className="p-3 font-medium border bg-gray-50"></td>)
+	const blanks = Array.from({ length: getFirstDayOfMonth() }, (_, i) => i).map(_ => <td className="p-3 font-medium border bg-gray-50"></td>)
 
 	const daysInMonth = Array.from({ length: getDaysInMonth() }, (_, i) => i + 1).map(el => (
 		<td

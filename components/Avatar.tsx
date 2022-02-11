@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
+
 import { supabase } from '@lib/supabase'
 
-export function Avatar({ url, size, onUpload }) {
+interface AvatarProps {
+	url: string
+	size: string | number
+	onUpload: (path: string) => any
+}
+
+export function Avatar({ url, size, onUpload }: AvatarProps) {
 	const [avatarUrl, setAvatarUrl] = useState('')
 	const [uploading, setUploading] = useState(false)
 
@@ -22,7 +29,7 @@ export function Avatar({ url, size, onUpload }) {
 		}
 	}
 
-	async function uploadAvatar(event) {
+	async function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
 		try {
 			setUploading(true)
 

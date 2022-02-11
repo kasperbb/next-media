@@ -1,9 +1,9 @@
-import CountrySelect from '@components/CountrySelect'
-import { SearchBar } from '@components/SearchBar'
-import Link from 'next/link'
+import { FC, Fragment } from 'react'
+import { LogoutIcon, UserIcon } from '@heroicons/react/solid'
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { ArchiveIcon, ChevronDownIcon, DuplicateIcon, LogoutIcon, PencilIcon, TrashIcon, UserIcon } from '@heroicons/react/solid'
+
+import Link from 'next/link'
+import { SearchBar } from '@components/SearchBar'
 import { useAuth } from '@context/AuthContext'
 
 const navigation = [
@@ -34,7 +34,7 @@ export const Header = () => {
 				</ul>
 				<SearchBar />
 				{user ? (
-					<AccountDropdown avatar_url={user.avatar_url} logout={logout} />
+					<AccountDropdown avatar_url={user.avatar_url!} logout={logout} />
 				) : (
 					<Link href="/sign-in">
 						<a className="px-3 py-2 text-sm bg-gray-100 rounded text-accent">Sign In</a>
@@ -46,7 +46,12 @@ export const Header = () => {
 	)
 }
 
-export const AccountDropdown = ({ avatar_url, logout }) => {
+interface AccountDropdownProps {
+	avatar_url: string
+	logout: () => Promise<void>
+}
+
+export const AccountDropdown: FC<AccountDropdownProps> = ({ avatar_url, logout }) => {
 	return (
 		<Menu as="div" className="relative">
 			<div className="flex items-center justify-center">

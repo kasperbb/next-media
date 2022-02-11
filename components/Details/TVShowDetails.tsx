@@ -1,15 +1,15 @@
+import { BookmarkIcon, CalendarIcon, TagIcon, TranslateIcon } from '@heroicons/react/solid'
+
+import { FC } from 'react'
+import Head from 'next/head'
 import { Image } from '@components/Image'
 import { Media } from '@interfaces/media'
-import { BookmarkIcon, CalendarIcon, TagIcon, TranslateIcon } from '@heroicons/react/solid'
-import Head from 'next/head'
-import moment from 'moment'
-import { FC } from 'react'
-import { useLocation } from '@context/LocationContext'
-import { WatchProviders } from '@interfaces/watchProviders'
 import { StringMap } from '@interfaces/map'
+import { WatchProviders } from '@interfaces/watchProviders'
+import moment from 'moment'
 import { supabase } from '@lib/supabase'
 import { useAuth } from '@context/AuthContext'
-import { DOESNT_EXIST_CODE } from '@constants/constants'
+import { useLocation } from '@context/LocationContext'
 
 export const TVShowDetails: FC<Media.Details.TVShow> = ({
 	id,
@@ -25,7 +25,7 @@ export const TVShowDetails: FC<Media.Details.TVShow> = ({
 }) => {
 	const { location } = useLocation()
 	const { user } = useAuth()
-
+	console.log(watchproviders)
 	const providers = watchproviders.results[location]
 
 	const addMedia = async () => {
@@ -38,7 +38,7 @@ export const TVShowDetails: FC<Media.Details.TVShow> = ({
 
 		if (error?.code === '23503') {
 			addMedia()
-			const { data, error } = await supabase.from('user_media').insert([{ user_id: user.id, media_id: id }])
+			const { data } = await supabase.from('user_media').insert([{ user_id: user.id, media_id: id }])
 			console.log('%c inside data:\n', 'color: yellow;font-size:24px;', data)
 		}
 
