@@ -1,13 +1,14 @@
-import { Popover, Transition } from '@headlessui/react'
 import { ArrowSmRightIcon, SearchIcon } from '@heroicons/react/solid'
-import { useOutsideAlerter } from '@hooks/useOutsideAlerter'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Loader } from '@components/Loader'
-import { useDebounce } from '@hooks/useDebounce'
-import { axios } from '@lib/axios'
-import { MediaSearchCard } from './SearchCards/MediaSearchCard'
+import { Popover, Transition } from '@headlessui/react'
+
 import Link from 'next/link'
+import { Loader } from '@components/Loader'
 import { Media } from '@interfaces/media'
+import { MediaSearchCard } from './SearchCards/MediaSearchCard'
+import { axios } from '@lib/axios'
+import { useDebounce } from '@hooks/useDebounce'
+import { useOutsideAlerter } from '@hooks/useOutsideAlerter'
 
 const RECENT_SEARCHES_LENGTH = 20
 
@@ -59,7 +60,7 @@ export const SearchBar = () => {
 	useEffect(() => {
 		const local: string[] = JSON.parse(localStorage.getItem('recentSearches')!) || []
 		setRecentSearches(local)
-	}, [])
+	}, [setRecentSearches])
 
 	useEffect(() => {
 		localStorage.setItem('recentSearches', JSON.stringify(recentSearches.slice(0, RECENT_SEARCHES_LENGTH)))

@@ -25,5 +25,5 @@ export const Image: FC<ImagePropsLarge | ImagePropsSmall> = ({ src, size = 3, al
 
 	if (!src) return <img src="/placeholder.png" alt="Placeholder image" className={className} />
 
-	return <img src={url + src} className={className} {...props} />
+	return <img src={url + src} className={className} alt={alt} {...props} />
 }

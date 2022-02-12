@@ -12,7 +12,7 @@ export default function Account({}) {
 
 	useEffect(() => {
 		getProfile()
-	}, [])
+	}, [getProfile])
 
 	async function getProfile() {
 		try {

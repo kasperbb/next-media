@@ -34,7 +34,7 @@ export default function CalendarPage() {
 		</th>
 	))
 
-	const blanks = Array.from({ length: getFirstDayOfMonth() }, (_, i) => i).map(_ => <td className="p-3 font-medium border bg-gray-50"></td>)
+	const blanks = Array.from({ length: getFirstDayOfMonth() }, (_, i) => i).map(el => <td key={el} className="p-3 font-medium border bg-gray-50"></td>)
 
 	const daysInMonth = Array.from({ length: getDaysInMonth() }, (_, i) => i + 1).map(el => (
 		<td
@@ -63,7 +63,7 @@ export default function CalendarPage() {
 	})
 
 	let tableBody = rows.map(day => {
-		return <tr>{day}</tr>
+		return <tr key={day}>{day}</tr>
 	})
 
 	return (
