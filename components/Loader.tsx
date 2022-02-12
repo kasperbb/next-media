@@ -1,4 +1,4 @@
-export const Loader = ({ size = '5' }) => {
+export const Loader = () => {
 	return (
 		<svg
 			className={`w-5 h-5 mr-3 -ml-1 text-accent animate-spin [animation-duration:750ms]`}
