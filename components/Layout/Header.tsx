@@ -40,7 +40,6 @@ export const Header = () => {
 						<a className="px-3 py-2 text-sm bg-gray-100 rounded text-accent">Sign In</a>
 					</Link>
 				)}
-				{/* <CountrySelect /> */}
 			</div>
 		</>
 	)
