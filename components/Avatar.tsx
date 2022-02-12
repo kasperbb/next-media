@@ -61,12 +61,10 @@ export function Avatar({ url, size, onUpload }: AvatarProps) {
 			{avatarUrl ? (
 				<img src={avatarUrl} alt="Avatar" className="object-cover rounded-full" style={{ height: size, width: size }} />
 			) : (
-				<div className="avatar no-image" style={{ height: size, width: size }} />
+				<div style={{ height: size, width: size }} />
 			)}
 			<div style={{ width: size }}>
-				<label className="block button primary" htmlFor="single">
-					{uploading ? 'Uploading ...' : 'Upload'}
-				</label>
+				<label htmlFor="single">{uploading ? 'Uploading ...' : 'Upload'}</label>
 				<input
 					style={{
 						visibility: 'hidden',
