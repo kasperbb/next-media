@@ -1,13 +1,14 @@
 import '@styles/globals.css'
+
 import App from 'next/app'
 import type { AppProps } from 'next/app'
-import { Layout } from '@components/Layout/Layout'
-import Head from 'next/head'
-import { axios } from '@lib/axios'
+import { AuthProvider } from '@context/AuthContext'
 import { Config } from '@interfaces/config'
 import { ConfigContext } from '@context/ConfigContext'
+import Head from 'next/head'
+import { Layout } from '@components/Layout/Layout'
 import { LocationProvider } from '@context/LocationContext'
-import { AuthProvider } from '@context/AuthContext'
+import { axios } from '@lib/axios'
 
 interface MyAppProps extends AppProps {
 	config: Config.Data
@@ -22,6 +23,7 @@ MyApp.getInitialProps = async (appContext: any) => {
 }
 
 export default function MyApp({ Component, pageProps, config }: MyAppProps) {
+	console.log(config)
 	if (!config) return null
 	return (
 		<ConfigContext.Provider value={config}>
