@@ -36,26 +36,6 @@ export const SearchBar = () => {
 
 	const [recentSearches, setRecentSearches] = useState<string[]>([])
 
-	const searchMedia = async () => {
-		if (!debounedSearchValue) return
-
-		setLoading(true)
-
-		const { data }: { data: Media.Search.Results } = await axios.get(`/search/multi`, { params: { query: debounedSearchValue } })
-
-		const media = data.results.filter(result => result.media_type === 'movie' || result.media_type === 'tv')
-		const people = data.results.filter(result => result.media_type === 'person')
-
-		setMediaResults(media)
-		setPeopleResults(people)
-
-		setLoading(false)
-
-		if (!recentSearches.includes(debounedSearchValue)) {
-			setRecentSearches(prev => [debounedSearchValue, ...prev])
-		}
-	}
-
 	useEffect(() => {
 		const local: string[] = JSON.parse(localStorage.getItem('recentSearches')!) || []
 		setRecentSearches(local)
@@ -66,13 +46,33 @@ export const SearchBar = () => {
 	}, [recentSearches])
 
 	useEffect(() => {
+		const searchMedia = async () => {
+			if (!debounedSearchValue) return
+
+			setLoading(true)
+
+			const { data }: { data: Media.Search.Results } = await axios.get(`/search/multi`, { params: { query: debounedSearchValue } })
+
+			const media = data.results.filter(result => result.media_type === 'movie' || result.media_type === 'tv')
+			const people = data.results.filter(result => result.media_type === 'person')
+
+			setMediaResults(media)
+			setPeopleResults(people)
+
+			setLoading(false)
+
+			if (!recentSearches.includes(debounedSearchValue)) {
+				setRecentSearches(prev => [debounedSearchValue, ...prev])
+			}
+		}
+
 		if (!debounedSearchValue.length) {
 			setMediaResults([])
 			setPeopleResults([])
 			return
 		}
 		searchMedia()
-	}, [debounedSearchValue, searchMedia])
+	}, [debounedSearchValue])
 
 	return (
 		<Popover className="relative flex-1 w-full">
