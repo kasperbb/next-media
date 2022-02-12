@@ -3,6 +3,17 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@lib/supabase'
 import { useAuth } from '@context/AuthContext'
 
+/* <div className="flex items-center justify-center w-full text-center">
+				<Avatar
+					url={avatar_url}
+					size={150}
+					onUpload={(url: string) => {
+						setAvatarUrl(url)
+						updateProfile({ username, website, avatar_url: url })
+					}}
+				/>
+			</div> */
+
 export default function Account({}) {
 	const { user } = useAuth()
 	const [loading, setLoading] = useState(true)
@@ -62,16 +73,6 @@ export default function Account({}) {
 
 	return (
 		<div className="flex flex-col w-full max-w-md gap-4 px-4 mx-auto mt-20 sm:px-6 md:px-8">
-			{/* <div className="flex items-center justify-center w-full text-center">
-				<Avatar
-					url={avatar_url}
-					size={150}
-					onUpload={(url: string) => {
-						setAvatarUrl(url)
-						updateProfile({ username, website, avatar_url: url })
-					}}
-				/>
-			</div> */}
 			<div>
 				<label htmlFor="email">Email</label>
 				<input className="w-full p-2 text-sm bg-gray-100 rounded text-accent focus:outline-none" id="email" type="text" value={user?.email} disabled />
