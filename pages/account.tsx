@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@lib/supabase'
 import { useAuth } from '@context/AuthContext'
 
-async function getProfile() {
+async function getProfile(userId: string) {
 	try {
-		const { data, error, status } = await supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single()
+		const { data, error, status } = await supabase.from('profiles').select(`username, website, avatar_url`).eq('id', userId).single()
 
 		if (error && status !== 406) {
 			throw error
@@ -25,7 +25,7 @@ export default function Account({}) {
 	const [avatar_url, setAvatarUrl] = useState('')
 
 	useEffect(() => {
-		getProfile()
+		getProfile(user.id)
 			.then(data => {
 				setUsername(data.username)
 				setWebsite(data.website)
