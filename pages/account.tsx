@@ -3,16 +3,19 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@lib/supabase'
 import { useAuth } from '@context/AuthContext'
 
-/* <div className="flex items-center justify-center w-full text-center">
-				<Avatar
-					url={avatar_url}
-					size={150}
-					onUpload={(url: string) => {
-						setAvatarUrl(url)
-						updateProfile({ username, website, avatar_url: url })
-					}}
-				/>
-			</div> */
+async function getProfile() {
+	try {
+		const { data, error, status } = await supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single()
+
+		if (error && status !== 406) {
+			throw error
+		}
+
+		return data
+	} catch (error) {
+		return error.message
+	}
+}
 
 export default function Account({}) {
 	const { user } = useAuth()
@@ -23,27 +26,17 @@ export default function Account({}) {
 
 	useEffect(() => {
 		getProfile()
-	}, [getProfile])
-
-	async function getProfile() {
-		try {
-			const { data, error, status } = await supabase.from('profiles').select(`username, website, avatar_url`).eq('id', user.id).single()
-
-			if (error && status !== 406) {
-				throw error
-			}
-
-			if (data) {
+			.then(data => {
 				setUsername(data.username)
 				setWebsite(data.website)
 				setAvatarUrl(data.avatar_url)
-			}
-		} catch (error) {
-			alert(error.message)
-		} finally {
-			setLoading(false)
-		}
-	}
+				setLoading(false)
+			})
+			.catch(err => {
+				alert(err.message)
+				setLoading(false)
+			})
+	}, [getProfile])
 
 	async function updateProfile({ username, website, avatar_url }: { [param: string]: string }) {
 		try {

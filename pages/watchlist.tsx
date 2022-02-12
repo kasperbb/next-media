@@ -3,20 +3,24 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@lib/supabase'
 import { useAuth } from '@context/AuthContext'
 
+const fetchMedia = async (userId: string) => {
+	const { data, error } = await supabase.from('user_media').select('media_id').eq('user_id', userId)
+	if (error) throw error
+	return data?.map(item => item.media_id)!
+}
+
 export default function WatchlistPage() {
 	const { user } = useAuth()
 	const [media, setMedia] = useState<any[]>([])
 
-	const fetchMedia = async () => {
-		const { data, error } = await supabase.from('user_media').select('media_id').eq('user_id', user.id)
-		const test = data?.map(item => item.media_id)!
-		console.log(test)
-		setMedia(test)
-		if (error) console.log('error', error)
-	}
-
 	useEffect(() => {
-		fetchMedia()
+		fetchMedia(user.id)
+			.then(data => {
+				setMedia(data)
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	}, [fetchMedia])
 
 	return (
