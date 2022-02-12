@@ -1,9 +1,10 @@
+import { CalendarIcon, TagIcon, TranslateIcon } from '@heroicons/react/solid'
+
+import { FC } from 'react'
+import Head from 'next/head'
 import { Image } from '@components/Image'
 import { Media } from '@interfaces/media'
-import { CalendarIcon, TagIcon, TranslateIcon } from '@heroicons/react/solid'
-import Head from 'next/head'
 import moment from 'moment'
-import { FC } from 'react'
 
 export const MovieDetails: FC<Media.Details.Movie> = ({ title, release_date, poster_path, backdrop_path, overview, status, original_language, genres }) => {
 	return (
@@ -15,7 +16,7 @@ export const MovieDetails: FC<Media.Details.Movie> = ({ title, release_date, pos
 			<Image src={backdrop_path} type="backdrop" size={2} className="object-cover object-top w-full max-h-[400px]" />
 
 			<div className="relative flex max-w-6xl gap-8 mx-auto bg-white rounded shadow-lg p-7 -mt-60">
-				<Image src={poster_path} className="object-cover w-64 rounded" />
+				<Image src={poster_path} alt={`Poster for ${title}`} className="object-cover w-64 rounded" />
 
 				<div>
 					<h1 className="mb-4 text-4xl font-bold text-accent font-heading">

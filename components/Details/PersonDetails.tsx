@@ -1,9 +1,9 @@
+import { CalendarIcon } from '@heroicons/react/solid'
+import { FC } from 'react'
+import Head from 'next/head'
 import { Image } from '@components/Image'
 import { Media } from '@interfaces/media'
-import { CalendarIcon } from '@heroicons/react/solid'
-import Head from 'next/head'
 import moment from 'moment'
-import { FC } from 'react'
 
 export const PersonDetails: FC<Media.Details.Person> = ({ name, profile_path, biography, known_for_department, birthday, deathday }) => {
 	return (
@@ -15,7 +15,7 @@ export const PersonDetails: FC<Media.Details.Person> = ({ name, profile_path, bi
 			<Image src="" type="backdrop" size={2} className="object-cover object-top w-full max-h-[400px]" />
 
 			<div className="relative flex max-w-6xl gap-8 mx-auto bg-white rounded shadow-lg p-7 -mt-60">
-				<Image src={profile_path} className="object-cover w-64 rounded" />
+				<Image src={profile_path} alt={`Still for ${name}`} className="object-cover w-64 rounded" />
 
 				<div>
 					<h1 className="mb-4 text-4xl font-bold text-accent font-heading">

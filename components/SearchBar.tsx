@@ -23,7 +23,6 @@ export const SearchBar = () => {
 		setOpen(true)
 	}
 
-	// TODO: Accept an array of refs to the hook
 	useOutsideAlerter([panelRef, inputRef], () => {
 		setOpen(false)
 	})
@@ -73,7 +72,7 @@ export const SearchBar = () => {
 			return
 		}
 		searchMedia()
-	}, [debounedSearchValue])
+	}, [debounedSearchValue, searchMedia])
 
 	return (
 		<Popover className="relative flex-1 w-full">
@@ -107,7 +106,12 @@ export const SearchBar = () => {
 			>
 				<Popover.Panel className="absolute left-0 z-[999] w-full px-4 mt-3 transform sm:px-0">
 					<div className="relative w-full z-[999] overflow-hidden bg-white rounded shadow-lg ring-1 ring-black ring-opacity-5" ref={panelRef}>
-						<div className={`flex flex-col p-7 min-h-[226px] min-h-[${panelRef?.current?.clientHeight}px]`}>
+						<div
+							className="flex flex-col p-7 min-h-[226px]"
+							style={{
+								minHeight: `${panelRef?.current?.clientHeight}px`,
+							}}
+						>
 							{loading && (
 								<div className="flex items-center justify-center flex-1 w-full h-full">
 									<Loader />

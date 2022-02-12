@@ -1,8 +1,6 @@
 import { FC } from 'react'
 import { useConfig } from '@context/ConfigContext'
 
-// ImgHTMLAttributes
-
 interface ImagePropsLarge extends React.HTMLAttributes<HTMLImageElement> {
 	src: string | null
 	size?: 0 | 1 | 2 | 3 | 4 | 5 | 6
@@ -25,5 +23,5 @@ export const Image: FC<ImagePropsLarge | ImagePropsSmall> = ({ src, size = 3, al
 
 	if (!src) return <img src="/placeholder.png" alt="Placeholder image" className={className} />
 
-	return <img src={url + src} className={className} alt={alt || ''} {...props} />
+	return <img src={url + src} className={className} {...props} />
 }

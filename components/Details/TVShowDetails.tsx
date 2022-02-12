@@ -58,7 +58,7 @@ export const TVShowDetails: FC<Media.Details.TVShow> = ({
 					<BookmarkIcon className="w-full h-full" />
 				</button>
 
-				<Image src={poster_path} className="object-cover w-64 rounded" />
+				<Image src={poster_path} alt={`Poster for ${name}`} className="object-cover w-64 rounded" />
 
 				<div>
 					<h1 className="mb-4 text-4xl font-bold text-accent font-heading">
