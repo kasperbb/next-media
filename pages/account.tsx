@@ -36,7 +36,7 @@ export default function Account({}) {
 				alert(err.message)
 				setLoading(false)
 			})
-	}, [getProfile])
+	}, [getProfile, user])
 
 	async function updateProfile({ username, website, avatar_url }: { [param: string]: string }) {
 		try {
