@@ -1,6 +1,13 @@
 import { RefObject, useEffect } from 'react'
 
-export function useOutsideAlerter(ref: RefObject<any> | RefObject<any>[], func: () => any) {
+/**
+ * Run a function when you click outside of the specified ref/refs.
+ *
+ * @param {function} func
+ * @param {RefObject<any>  | RefObject<any>[]} ref
+ * @functions
+ */
+export function useOutsideAlerter(func: () => any, ref: RefObject<any> | RefObject<any>[]) {
 	useEffect(() => {
 		function handleClickOutside(event: any) {
 			if (Array.isArray(ref)) {
