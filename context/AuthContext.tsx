@@ -2,6 +2,7 @@ import { ApiError, Session, User as SupabaseUser } from '@supabase/supabase-js'
 import React, { FC, useContext, useEffect, useState } from 'react'
 
 import { User } from '@interfaces/user'
+import { postAuthData } from '@utils/auth'
 import { supabase } from '@lib/supabase'
 import { useRouter } from 'next/router'
 
@@ -19,14 +20,6 @@ export const useAuth = () => {
 	return useContext(AuthContext) as AuthContextValues
 }
 
-const postData = (url: string, data = {}) =>
-	fetch(url, {
-		method: 'POST',
-		headers: new Headers({ 'Content-Type': 'application/json' }),
-		credentials: 'same-origin',
-		body: JSON.stringify(data),
-	}).then(res => res.json())
-
 export const AuthProvider: FC = ({ children }) => {
 	const [session, setSession] = useState<Session | null>(null)
 	const [user, setUser] = useState<User.UserObject | null>(null)
@@ -41,7 +34,7 @@ export const AuthProvider: FC = ({ children }) => {
 		const { data: authListener } = supabase.auth.onAuthStateChange(async (event, changeAuthSession) => {
 			console.log('%c Supbase auth event:', 'color:#ffa500', event)
 
-			await postData('/api/auth', {
+			await postAuthData({
 				event,
 				token: changeAuthSession?.access_token ?? null,
 				maxAge: changeAuthSession?.expires_in ?? null,

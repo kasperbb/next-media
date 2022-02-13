@@ -23,8 +23,8 @@ MyApp.getInitialProps = async (appContext: any) => {
 }
 
 export default function MyApp({ Component, pageProps, config }: MyAppProps) {
-	console.log(config)
 	if (!config) return null
+
 	return (
 		<ConfigContext.Provider value={config}>
 			<AuthProvider>
