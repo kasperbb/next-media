@@ -6,6 +6,9 @@ module.exports = {
 	darkMode: 'class',
 	theme: {
 		extend: {
+			screens: {
+				xxl: '1752px',
+			},
 			fontFamily: {
 				sans: ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
 				heading: ['Montserrat', 'sans-serif'],

@@ -21,7 +21,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
 	let list = await Promise.all(promises)
 	list = list.map(item => item.data)
-	console.log(list)
 
 	return { props: { list } }
 }

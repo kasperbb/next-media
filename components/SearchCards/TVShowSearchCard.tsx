@@ -3,7 +3,7 @@ import { Image } from '@components/Image'
 import Link from 'next/link'
 import { Media } from '@interfaces/media'
 
-export const TVShowSearchCard: FC<Media.Search.TVShow> = ({ id, media_type, poster_path, name, first_air_date }) => {
+export const TVShowSearchCard: FC<Media.Search.TVShow> = ({ id, poster_path, name, first_air_date }) => {
 	return (
 		<Link href={`/tv/${id}`}>
 			<a className="flex items-center p-1 -ml-1 rounded hover:bg-gray-50">
