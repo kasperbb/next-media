@@ -18,8 +18,8 @@ export const Header = () => {
 	const { user, logout } = useAuth()
 
 	return (
-		<div className="mx-auto max-w-screen-xxl">
-			<nav className="fixed z-30 flex items-center w-full gap-5 px-10 py-2 bg-white text-accent">
+		<>
+			<div className="fixed z-30 flex items-center w-full gap-5 px-16 py-2 bg-white text-accent">
 				<Link href="/">
 					<a>
 						<img src="/logo.svg" alt="" className="w-8" />
@@ -40,8 +40,8 @@ export const Header = () => {
 						<a className="px-3 py-2 text-sm bg-gray-100 rounded text-accent">Sign In</a>
 					</Link>
 				)}
-			</nav>
-		</div>
+			</div>
+		</>
 	)
 }
 
