@@ -17,7 +17,7 @@ export namespace Media {
 			original_title: string
 			genre_ids: number[]
 			id: number
-			media_type: 'movie'
+			media_type?: 'movie'
 			original_language: string
 			title: string
 			backdrop_path: string | null
@@ -34,7 +34,7 @@ export namespace Media {
 			overview: string
 			backdrop_path: string | null
 			vote_average: number
-			media_type: 'tv'
+			media_type?: 'tv'
 			first_air_date: string
 			origin_country: string[]
 			genre_ids: number[]
@@ -48,7 +48,7 @@ export namespace Media {
 			profile_path: string | null
 			adult: boolean
 			id: number
-			media_type: 'person'
+			media_type?: 'person'
 			known_for: (Movie | TVShow)[]
 			known_for_department: (Movie | TVShow)[]
 			name: string
@@ -132,7 +132,18 @@ export namespace Media {
 				vote_count: number
 			}
 			name: string
-			next_episode_to_air: null
+			next_episode_to_air: {
+				air_date: string
+				episode_number: number
+				id: number
+				name: string
+				overview: string
+				production_code: string
+				season_number: number
+				still_path: string | null
+				vote_average: number
+				vote_count: number
+			}
 			networks: {
 				name: string
 				id: number
@@ -176,6 +187,7 @@ export namespace Media {
 			type: string
 			vote_average: number
 			vote_count: number
+			imdb_id: string
 			'watch/providers': {
 				results: WatchProviders.List
 			}
@@ -199,5 +211,11 @@ export namespace Media {
 		}
 
 		export type All = Movie | TVShow | Person
+	}
+
+	export enum Types {
+		TV = 'tv',
+		MOVIE = 'movie',
+		PERSON = 'person',
 	}
 }

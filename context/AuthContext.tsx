@@ -43,9 +43,8 @@ export const AuthProvider: FC = ({ children }) => {
 			setSession(changeAuthSession)
 			setUser(changeAuthSession?.user ?? null)
 			await getAvatar(changeAuthSession?.user)
+			setLoading(false)
 		})
-
-		setLoading(false)
 
 		return () => {
 			authListener?.unsubscribe()

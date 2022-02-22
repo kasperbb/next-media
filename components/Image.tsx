@@ -10,7 +10,7 @@ interface ImagePropsLarge extends React.HTMLAttributes<HTMLImageElement> {
 }
 
 interface ImagePropsSmall extends React.HTMLAttributes<HTMLImageElement> {
-	src: string | null
+	src?: string | null
 	size?: 0 | 1 | 2 | 3
 	alt?: string
 	type?: 'backdrop' | 'profile' | 'still'

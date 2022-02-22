@@ -51,7 +51,7 @@ export const TVShowDetails: FC<Media.Details.TVShow> = ({
 	}, [])
 
 	const addMedia = async () => {
-		return await supabase.from('media').upsert([{ id }], { returning: 'minimal' })
+		return await supabase.from('media').upsert([{ id, type: 'tv' }], { returning: 'minimal' })
 	}
 
 	const addToWatchlist = async () => {
