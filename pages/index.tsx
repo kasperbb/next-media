@@ -1,45 +1,79 @@
-import { GetServerSideProps } from 'next/types'
-import { Media } from '@interfaces/media'
-import { MediaSlider } from '@components/MediaSlider'
-import { axios } from '@lib/axios'
+import { prefetchMedia, useMedia } from '@hooks/useMedia'
+
+import { GetServerSideProps } from 'next'
+import { Image } from '@components/Image'
+import Link from 'next/link'
+import { Media } from '@interfaces/media.interfaces'
+import { Slider } from '@components/Slider'
+import { Sonarr } from '@interfaces/sonarr'
+import { useSonarr } from '@queries/sonarr.queries'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const { data: popularShows }: { data: Media.Search.Results } = await axios.get(`/tv/popular`)
-	const { data: popularMovies }: { data: Media.Search.Results } = await axios.get(`/movie/popular`)
-
-	const { data: trending }: { data: Media.Search.Results } = await axios.get(`/trending/all/week`)
-
-	const { data: tvGenres }: { data: Media.Search.Results } = await axios.get(`/genre/tv/list`)
-	console.log(tvGenres)
-
-	return { props: { popularShows: popularShows.results, popularMovies: popularMovies.results, trending: trending.results } }
+  return await prefetchMedia({
+    queries: ['/tv/popular', '/movie/popular'],
+  })
 }
 
-interface IndexPageProps {
-	popularShows: Media.Search.TVShow[]
-	popularMovies: Media.Search.Movie[]
-	trending: (Media.Search.TVShow & Media.Search.Movie)[]
-}
+export default function Index() {
+  const { data: shows } = useMedia<Media.Search.Results<Media.Search.TVShow>>('/tv/popular')
+  const { data: movies } = useMedia<Media.Search.Results<Media.Search.Movie>>('/movie/popular')
 
-export default function IndexPage({ popularShows, popularMovies, trending }: IndexPageProps) {
-	return (
-		<>
-			<main className="px-10 mx-auto my-20 max-w-screen-xxl">
-				<section className="mb-20">
-					<h1 className="mb-3 text-3xl font-bold font-heading text-accent">Trending</h1>
-					<MediaSlider media={trending} />
-				</section>
+  const { data } = useSonarr<Sonarr.Series[]>('/series')
+  console.log('data', data)
 
-				<section className="mb-20">
-					<h1 className="mb-3 text-3xl font-bold font-heading text-accent">TV Shows - Popular</h1>
-					<MediaSlider media={popularShows} type={Media.Types.TV} />
-				</section>
+  return (
+    <>
+      <main className="my-20">
+        <Slider title="Popular tv-shows" rememberPositionKey="Popular tv-shows">
+          {shows?.results.map(({ id, name, backdrop_path }) => (
+            <li key={id} className="first:pl-20 last:pr-20" title={name}>
+              <Link href={`/tv/${id}`} passHref>
+                <a>
+                  <div className="h-40 rounded shadow w-[282px] bg-card">
+                    <Image src={backdrop_path} alt={name} className="object-cover w-full h-full rounded" preventDrag />
+                  </div>
+                  <p className="pt-2 text-xs text-center truncate">{name}</p>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </Slider>
 
-				<section>
-					<h1 className="mb-3 text-3xl font-bold font-heading text-accent">Movies - Popular</h1>
-					<MediaSlider media={popularMovies} type={Media.Types.MOVIE} />
-				</section>
-			</main>
-		</>
-	)
+        <Slider title="Popular movies" rememberPositionKey="Popular movies">
+          {movies?.results.map(({ id, title, backdrop_path }) => (
+            <li key={id} className="first:pl-20 last:pr-20" title={title}>
+              <Link href={`/movie/${id}`} passHref>
+                <a>
+                  <div className="h-40 rounded shadow w-[282px] bg-card">
+                    <Image src={backdrop_path} alt={title} className="object-cover w-full h-full rounded" preventDrag />
+                  </div>
+                  <p className="pt-2 text-xs text-center truncate">{title}</p>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </Slider>
+
+        <Slider title="Sonarr" rememberPositionKey="Sonarr">
+          {data?.map(({ id, title, images }) => (
+            <li key={id} className="first:pl-20 last:pr-20" title={title}>
+              <Link href={`/sonarr/${id}`} passHref>
+                <a>
+                  <div className="h-96 rounded shadow w-[282px] bg-card">
+                    <Image
+                      src={images.find((image) => image.coverType === 'poster')?.url}
+                      alt={title}
+                      className="object-cover w-full h-full rounded"
+                      preventDrag
+                      isSonarr
+                    />
+                  </div>
+                </a>
+              </Link>
+            </li>
+          ))}
+        </Slider>
+      </main>
+    </>
+  )
 }

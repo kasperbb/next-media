@@ -2,11 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 ::selection {
-	background: theme(colors.primary.400);
-	color: white;
+  background: theme(colors.primary.400);
+  color: white;
 }
 
 html {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: theme(colors.bg);
+}
+
+.ReactModal__Content {
+  opacity: 0;
+  transform: translateY(-25%);
+  transition: all 250ms ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: translateY(-25%);
 }
